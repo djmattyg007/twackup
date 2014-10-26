@@ -5,10 +5,10 @@ import (
 	"io/ioutil"
 	"os"
 	"path/filepath"
+	"encoding/json"
 
 	"github.com/kurrik/oauth1a"
 	"github.com/kurrik/twittergo"
-	"gopkg.in/v1/yaml"
 )
 
 type Config struct {
@@ -24,7 +24,7 @@ func ReadConfig(path string) (*Config, error) {
 		return nil, err
 	}
 	var config Config
-	err = yaml.Unmarshal(buf, &config)
+	err = json.Unmarshal(buf, &config)
 	if err != nil {
 		return nil, err
 	}
@@ -45,7 +45,7 @@ func LoadConfig() (*Config, error) {
 	if home == "" {
 		return nil, errors.New("HOME is not set in environment")
 	}
-	path := filepath.Join(home, ".config", "twackup", "oauth.yaml")
+	path := filepath.Join(home, ".config", "twackup", "oauth.json")
 	config, err := ReadConfig(path)
 	return config, err
 }
